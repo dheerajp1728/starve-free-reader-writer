@@ -8,13 +8,6 @@
 
 #define NTHREADS 10 //NOTE: keep the number of threads in the scenario under 10, if want to increase, modify this
 
-/**************************************************************************************************************
-* the Reader and Writer acquire and release code is a repurposed code from the OSTEP textbook chp. 31 code,
-* reading_writing() is a function from the project prompt. The code also 
-* includes the addition of another semaphore wIn to create a queue for threads to avoid writing starvation. The 
-* idea for this was researched in the 'The Little Book On Semaphores' and implemented by me.
-***************************************************************************************************************/
-
 //the struct for reader-writer locks
 typedef struct {
     sem_t wrt; //write lock - to prevent a writer from entering the system when readers are there.
