@@ -46,6 +46,72 @@ writer and no readers can now enter it. Upon execution, the writer does sem_post
 unblocks the next thread which is either a reader or a writer. Now, however, it presents a possibility
 for any thread (writer or reader) to enter the execution.
 
+**Semaphore**
+Designing a Semaphore with FIRST-IN-FIRST-OUT(FIFO) queue to maintain the list of blocked processes
+
+// The code for a FIFO semaphore.
+struct Semaphore{
+  int value = 1;
+  FIFO_Queue* Q = new FIFO_Queue();
+}
+    
+void wait(Semaphore *S,int* process_id){
+  S->value--;
+  if(S->value < 0){
+  S->Q->push(process_id);
+  block(); //this function will block the process by using system call and will transfer it to the waiting queue
+           //the process will remain in the waiting queue till it is waken up by the wakeup() system calls
+           //this is a type of non busy waiting
+  }
+}
+    
+void signal(Semaphore *S){
+  S->value++;
+  if(S->value <= 0){
+  int* PID = S->Q->pop();
+  wakeup(PID); //this function will wakeup the process with the given pid using system calls
+  }
+}
+
+
+//The code for the queue which will allow us to make a FIFO semaphore.
+struct FIFO_Queue{
+    ProcessBlock* front, rear;
+    int* pop(){
+        if(front == NULL){
+            return -1;            // Error : underflow.
+        }
+        else{
+            int* val = front->value;
+            front = front->next;
+            if(front == NULL)
+            {
+                rear = NULL;
+            }
+            return val;
+        }
+    }
+    void* push(int* val){
+        ProcessBlock* blk = new ProcessBlock();
+        blk->value = val;
+        if(rear == NULL){
+            front = rear = n;
+            
+        }
+        else{
+            rear->next = blk;
+            rear = blk;
+        }
+    }
+    
+}
+
+// A Process Block.
+struct ProcessBlock{
+    ProcessBlock* next;
+    int* process_block;
+}
+
 **Pseudocode**
 
 The pseudocode for the problem can be defined by the following.
