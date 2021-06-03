@@ -93,41 +93,74 @@ wakeup(PID); //this function will wakeup the process with the given pid using sy
 
 
 //The code for the queue which will allow us to make a FIFO semaphore.
+
 struct FIFO_Queue{
-    ProcessBlock* front, rear;
-    int* pop(){
-        if(front == NULL){
-            return -1;            // Error : underflow.
+
+ProcessBlock* front, rear;
+
+int* pop(){
+
+if(front == NULL){
+
+return -1;            // Error : underflow.
         }
-        else{
-            int* val = front->value;
-            front = front->next;
-            if(front == NULL)
-            {
-                rear = NULL;
-            }
-            return val;
-        }
-    }
-    void* push(int* val){
-        ProcessBlock* blk = new ProcessBlock();
-        blk->value = val;
-        if(rear == NULL){
-            front = rear = n;
-            
-        }
-        else{
-            rear->next = blk;
-            rear = blk;
-        }
-    }
-    
+
+else{
+
+int* val = front->value;
+
+front = front->next;
+
+if(front == NULL)
+
+{
+
+rear = NULL;
+
 }
 
+return val;
+
+}
+
+}
+
+void* push(int* val){
+
+ProcessBlock* blk = new ProcessBlock();
+
+blk->value = val;
+
+if(rear == NULL){
+
+front = rear = n;
+
+
+
+}
+ 
+ else{
+ 
+ rear->next = blk;
+ 
+ rear = blk;
+ 
+ }
+ 
+ }
+    
+
+}
+
+
 // A Process Block.
+
 struct ProcessBlock{
-    ProcessBlock* next;
-    int* process_block;
+
+ProcessBlock* next;
+
+int* process_block;
+
 }
 
 **Pseudocode**
