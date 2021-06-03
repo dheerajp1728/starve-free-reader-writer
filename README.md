@@ -51,26 +51,44 @@ Designing a Semaphore with FIRST-IN-FIRST-OUT(FIFO) queue to maintain the list o
 
 // The code for a FIFO semaphore.
 struct Semaphore{
+
   int value = 1;
-  FIFO_Queue* Q = new FIFO_Queue();
+
+FIFO_Queue* Q = new FIFO_Queue();
+
 }
     
 void wait(Semaphore *S,int* process_id){
-  S->value--;
-  if(S->value < 0){
-  S->Q->push(process_id);
-  block(); //this function will block the process by using system call and will transfer it to the waiting queue
-           //the process will remain in the waiting queue till it is waken up by the wakeup() system calls
-           //this is a type of non busy waiting
-  }
+
+S->value--;
+
+if(S->value < 0){
+
+S->Q->push(process_id);
+
+block(); //this function will block the process by using system call and will transfer it to the waiting queue
+
+//the process will remain in the waiting queue till it is waken up by the wakeup() system calls
+
+//this is a type of non busy waiting
+
+}
+
 }
     
+
 void signal(Semaphore *S){
-  S->value++;
-  if(S->value <= 0){
-  int* PID = S->Q->pop();
-  wakeup(PID); //this function will wakeup the process with the given pid using system calls
-  }
+
+S->value++;
+
+if(S->value <= 0){
+
+int* PID = S->Q->pop();
+
+wakeup(PID); //this function will wakeup the process with the given pid using system calls
+
+}
+
 }
 
 
