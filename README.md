@@ -50,6 +50,7 @@ for any thread (writer or reader) to enter the execution.
 Designing a Semaphore with FIRST-IN-FIRST-OUT(FIFO) queue to maintain the list of blocked processes
 
 // The code for a FIFO semaphore.
+
 struct Semaphore{
 
   int value = 1;
